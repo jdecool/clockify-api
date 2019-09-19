@@ -6,6 +6,7 @@ namespace JDecool\Clockify;
 
 use Http\Client\Common\HttpMethodsClient;
 use JDecool\Clockify\{
+    Api\Workspace\Workspace,
     Exception\ClockifyException,
     Exception\BadRequest,
     Exception\Forbidden,
@@ -30,6 +31,11 @@ class Client
         $this->http = $http;
         $this->baseUri = $baseUri;
         $this->apiKey = $apiKey;
+    }
+
+    public function workspaceApi(): Workspace
+    {
+        return new Workspace($this);
     }
 
     public function get(string $uri, array $params = []): array

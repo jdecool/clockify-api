@@ -32,7 +32,7 @@ class Client
         $this->apiKey = $apiKey;
     }
 
-    public function get(string $uri, array $params): array
+    public function get(string $uri, array $params = []): array
     {
         $response = $this->http->get(
             $this->endpoint($uri, $params),

@@ -31,6 +31,6 @@ class ApiFactory
 
     public function workspaceApi(): Workspace
     {
-        return new Workspace($this);
+        return new Workspace($this->client);
     }
 }

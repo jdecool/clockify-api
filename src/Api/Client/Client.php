@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace JDecool\Clockify\Api\Client;
 
-use JDecool\Clockify\Client as Http;
-use JDecool\Clockify\Exception\ClockifyException;
-use JDecool\Clockify\Model\ClientDto;
+use JDecool\Clockify\{
+    Client as Http,
+    Exception\ClockifyException,
+    Model\ClientDto
+};
 
 class Client
 {

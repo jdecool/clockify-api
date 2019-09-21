@@ -21,7 +21,7 @@ class TaskDto
             $data['id'],
             $data['name'],
             $data['projectId'],
-            new TaskStatus($data['status']),
+            new TaskStatus($data['status'])
         );
     }
 

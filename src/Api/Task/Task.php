@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace JDecool\Clockify\Api\Task;
 
-use JDecool\Clockify\Client;
-use JDecool\Clockify\Exception\ClockifyException;
-use JDecool\Clockify\Model\TaskDto;
+use JDecool\Clockify\{
+    Client,
+    Exception\ClockifyException,
+    Model\TaskDto
+};
 
 class Task
 {

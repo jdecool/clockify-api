@@ -46,7 +46,7 @@ class Client
         );
     }
 
-    public function createClient(string $workspaceId, ClientRequest $request): ClientDto
+    public function create(string $workspaceId, ClientRequest $request): ClientDto
     {
         $data = $this->http->post("/workspaces/$workspaceId/clients", $request->toArray());
 

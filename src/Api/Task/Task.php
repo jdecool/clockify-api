@@ -50,7 +50,7 @@ class Task
         );
     }
 
-    public function createTask(string $workspaceId, string $projectId, TaskRequest $request): TaskDto
+    public function create(string $workspaceId, string $projectId, TaskRequest $request): TaskDto
     {
         $data = $this->http->post("/workspaces/$workspaceId/projects/$projectId/tasks", $request->toArray());
 

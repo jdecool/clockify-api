@@ -20,7 +20,7 @@ class Project
     }
 
     /**
-     * @return ProjectDtoImpl|]
+     * @return ProjectDtoImpl[]
      */
     public function projects(string $workspaceId, array $params = []): array
     {
@@ -46,14 +46,14 @@ class Project
         );
     }
 
-    public function createProject(string $workspaceId, ProjectRequest $request): ProjectDtoImpl
+    public function create(string $workspaceId, ProjectRequest $request): ProjectDtoImpl
     {
         $data = $this->http->post(" /workspaces/$workspaceId/projects", $request->toArray());
 
         return ProjectDtoImpl::fromArray($data);
     }
 
-    public function deleteProject(string $workspaceId, string $projectId): void
+    public function delete(string $workspaceId, string $projectId): void
     {
         $this->http->delete("/workspaces/$workspaceId/projects/$projectId");
     }

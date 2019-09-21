@@ -33,7 +33,7 @@ class Workspace
         );
     }
 
-    public function createWorkspace(WorkspaceRequest $request): WorkspaceDto
+    public function create(WorkspaceRequest $request): WorkspaceDto
     {
         $data = $this->http->post('/workspaces', $request->toArray());
 

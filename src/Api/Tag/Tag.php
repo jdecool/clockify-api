@@ -46,7 +46,7 @@ class Tag
         );
     }
 
-    public function createTag(string $workspaceId, TagRequest $request): TagDto
+    public function create(string $workspaceId, TagRequest $request): TagDto
     {
         $data = $this->http->post("/workspaces/$workspaceId/tags", $request->toArray());
 

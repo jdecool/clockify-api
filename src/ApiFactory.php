@@ -6,6 +6,7 @@ namespace JDecool\Clockify;
 
 use JDecool\Clockify\{
     Api\Client\Client as ClientApi,
+    Api\Project\Project,
     Api\Tag\Tag,
     Api\Workspace\Workspace
 };
@@ -22,6 +23,11 @@ class ApiFactory
     public function clientApi(): ClientApi
     {
         return new ClientApi($this->client);
+    }
+
+    public function projectApi(): Project
+    {
+        return new Project($this->client);
     }
 
     public function tagApi(): Tag

@@ -30,7 +30,7 @@ class ProjectDtoImpl
             $data['color'],
             $data['duration'],
             EstimateDto::fromArray($data['estimate']),
-            HourlyRateDto::fromArray($data['hourlyRate']),
+            $data['hourlyRate'] ? HourlyRateDto::fromArray($data['hourlyRate']) : null,
             $data['id'],
             array_map(
                 static function(array $membership): MembershipDto {
@@ -55,7 +55,7 @@ class ProjectDtoImpl
         string $color,
         string $duration,
         EstimateDto $estimate,
-        HourlyRateDto $hourlyRate,
+        ?HourlyRateDto $hourlyRate,
         string $id,
         array $memberships,
         string $name,
@@ -112,7 +112,7 @@ class ProjectDtoImpl
         return $this->estimate;
     }
 
-    public function hourlyRate(): HourlyRateDto
+    public function hourlyRate(): ?HourlyRateDto
     {
         return $this->hourlyRate;
     }

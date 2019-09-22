@@ -128,20 +128,24 @@ class Client
 
     private function createExceptionFromResponse(ResponseInterface $response): ClockifyException
     {
+        $data = json_decode((string) $response->getBody(), true);
+        $message = $data['message'] ?? '';
+        $code = $data['code'] ?? 0;
+
         switch ($response->getStatusCode()) {
             case 400:
-                return new BadRequest();
+                return new BadRequest($message, $code);
 
             case 401:
-                return new Unauthorized();
+                return new Unauthorized($message, $code);
 
             case 403:
-                return new Forbidden();
+                return new Forbidden($message, $code);
 
             case 404:
-                return new NotFound();
+                return new NotFound($message, $code);
         }
 
-        return new ClockifyException();
+        return new ClockifyException($message, $code);
     }
 }

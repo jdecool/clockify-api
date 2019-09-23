@@ -1,0 +1,43 @@
+name: Continuous Integration
+on: [push]
+
+jobs:
+  linter:
+    name: Code style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: docker://composer
+        with:
+          args: install
+      - uses: docker://php:7.3-cli-alpine
+        with:
+          entrypoint: vendor/bin/php-cs-fixer
+          args: fix -v --dry-run
+
+  stan:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: docker://composer
+        with:
+          args: install
+      - uses: docker://php:7.3-cli-alpine
+        with:
+          entrypoint: vendor/bin/phpstan
+          args: analyse src -c phpstan.neon -l max
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['7.2', '7.3']
+    steps:
+      - uses: actions/checkout@master
+      - uses: baptouuuu/setup-php@1.0.2
+        with:
+          version: ${{ matrix.version }}
+      - run: 'composer install'
+      - run: 'vendor/bin/phpunit'

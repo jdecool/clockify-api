@@ -11,7 +11,8 @@ use JDecool\Clockify\{
     Api\Task\Task,
     Api\TimeEntry\TimeEntry,
     Api\User\User,
-    Api\Workspace\Workspace};
+    Api\Workspace\Workspace
+};
 
 class ApiFactory
 {

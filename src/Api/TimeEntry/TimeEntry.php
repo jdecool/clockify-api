@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace JDecool\Clockify\Api\TimeEntry;
 
-use JDecool\Clockify\Client;
-use JDecool\Clockify\Model\TimeEntryDtoImpl;
+use JDecool\Clockify\{
+    Client,
+    Model\TimeEntryDtoImpl
+};
 
 class TimeEntry
 {

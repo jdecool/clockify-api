@@ -9,6 +9,7 @@ use JDecool\Clockify\{
     Api\Project\Project,
     Api\Tag\Tag,
     Api\Task\Task,
+    Api\User\User,
     Api\Workspace\Workspace
 };
 
@@ -39,6 +40,11 @@ class ApiFactory
     public function taskApi(): Task
     {
         return new Task($this->client);
+    }
+
+    public function userApi(): User
+    {
+        return new User($this->client);
     }
 
     public function workspaceApi(): Workspace

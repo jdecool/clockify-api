@@ -53,6 +53,7 @@ Available APIs:
 * [Project](https://clockify.me/developers-api#tag-Project)
 * [Tag](https://clockify.me/developers-api#tag-Tag)
 * [Task](https://clockify.me/developers-api#tag-Task)
+* [User](https://clockify.me/developers-api#tag-User)
 * [Workspace](https://clockify.me/developers-api#tag-Workspace)
 
 ## LICENSE

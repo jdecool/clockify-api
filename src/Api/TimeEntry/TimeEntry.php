@@ -26,6 +26,13 @@ class TimeEntry
         return TimeEntryDtoImpl::fromArray($data);
     }
 
+    public function update(string $workspaceId, string $id, UpdateTimeEntryRequest $request): TimeEntryDtoImpl
+    {
+        $data = $this->http->put("/workspaces/$workspaceId/time-entries/$id", $request->toArray());
+
+        return TimeEntryDtoImpl::fromArray($data);
+    }
+
     public function entry(string $workspaceId, string $id, array $params = []): TimeEntryDtoImpl
     {
         if (isset($params['consider-duration-format']) && !is_bool($params['consider-duration-format'])) {

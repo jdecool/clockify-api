@@ -21,7 +21,7 @@ class TimeEntry
 
     public function create(string $workspaceId, TimeEntryRequest $request): TimeEntryDtoImpl
     {
-        $data = $this->http->post(" /workspaces/$workspaceId/time-entries", $request->toArray());
+        $data = $this->http->post("/workspaces/$workspaceId/time-entries", $request->toArray());
 
         return TimeEntryDtoImpl::fromArray($data);
     }

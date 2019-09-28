@@ -47,4 +47,9 @@ class TimeEntry
 
         return TimeEntryDtoImpl::fromArray($data);
     }
+
+    public function delete(string $workspaceId, string $id): void
+    {
+        $this->http->delete("/workspaces/$workspaceId/time-entries/$id");
+    }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace JDecool\Clockify\Api\User;
 
 use JDecool\Clockify\{
-    Api\Client\Client,
+    Client,
     Model\CurrentUserDto,
     Model\UserDto
 };

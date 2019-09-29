@@ -59,4 +59,11 @@ class TimeEntry
     {
         $this->http->delete("/workspaces/$workspaceId/time-entries/$id");
     }
+
+    public function stopRunningTime(string $workspaceId, string $userId, StopTimeEntryRequest $request): TimeEntryDtoImpl
+    {
+        $data = $this->http->patch("/workspaces/$workspaceId/user/$userId/time-entries", $request->toArray());
+
+        return TimeEntryDtoImpl::fromArray($data);
+    }
 }

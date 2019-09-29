@@ -26,6 +26,13 @@ class TimeEntry
         return TimeEntryDtoImpl::fromArray($data);
     }
 
+    public function createForUser(string $workspaceId, string $userId, TimeEntryRequest $request): TimeEntryDtoImpl
+    {
+        $data = $this->http->post("/workspaces/$workspaceId/user/$userId/time-entries", $request->toArray());
+
+        return TimeEntryDtoImpl::fromArray($data);
+    }
+
     public function update(string $workspaceId, string $id, UpdateTimeEntryRequest $request): TimeEntryDtoImpl
     {
         $data = $this->http->put("/workspaces/$workspaceId/time-entries/$id", $request->toArray());

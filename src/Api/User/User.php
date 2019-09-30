@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace JDecool\Clockify\Api\User;
 
-use JDecool\Clockify\Api\Client\Client;
-use JDecool\Clockify\Model\CurrentUserDto;
-use JDecool\Clockify\Model\UserDto;
+use JDecool\Clockify\{
+    Client,
+    Model\CurrentUserDto,
+    Model\UserDto
+};
 
 class User
 {

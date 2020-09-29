@@ -10,10 +10,16 @@ PHP client for [Clockify.me API](https://clockify.me/developers-api).
 
 ## Install it
 
-Install using [composer](https://getcomposer.org):
+Install using [composer](https://getcomposer.org), with guzzle6-adapter:
 
 ```bash
 composer require jdecool/clockify-api php-http/guzzle6-adapter
+```
+
+Install using [composer](https://getcomposer.org), with guzzle7-adapter:
+
+```bash
+composer require jdecool/clockify-api php-http/guzzle7-adapter
 ```
 
 The library is decoupled from any HTTP message client with [HTTPlug](http://httplug.io). That's why you need to install a client implementation `http://httplug.io/` in this example.

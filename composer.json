@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
-        "php-http/guzzle6-adapter": "^2.0.1",
+        "php-http/guzzle7-adapter": "^0.1.0",
         "phpstan/phpstan": "^0.11.16",
         "phpunit/phpunit": "^8.0"
     },

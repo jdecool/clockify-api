@@ -1,7 +1,6 @@
 Clockify API client
 ====================
 
-[![Build Status](https://travis-ci.org/jdecool/clockify-api.svg?branch=master)](https://travis-ci.org/jdecool/clockify-api?branch=master)
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjdecool%2Fclockify-api%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/jdecool/clockify-api/goto?ref=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jdecool/clockify-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jdecool/clockify-api/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/jdecool/clockify-api/v/stable.png)](https://packagist.org/packages/jdecool/clockify-api)
@@ -10,19 +9,16 @@ PHP client for [Clockify.me API](https://clockify.me/developers-api).
 
 ## Install it
 
-Install using [composer](https://getcomposer.org), with guzzle6-adapter:
+You need to install the library with a PSR-18 compliant HTTP client.
+
+Example using Guzzle:
 
 ```bash
-composer require jdecool/clockify-api php-http/guzzle6-adapter
+composer require jdecool/clockify-api guzzlehttp/guzzle http-interop/http-factory-guzzle
 ```
 
-Install using [composer](https://getcomposer.org), with guzzle7-adapter:
-
-```bash
-composer require jdecool/clockify-api php-http/guzzle7-adapter
-```
-
-The library is decoupled from any HTTP message client with [HTTPlug](http://httplug.io). That's why you need to install a client implementation `http://httplug.io/` in this example.
+The library is decoupled from any HTTP message client with [HTTPlug](http://httplug.io).
+That's why you need to install a client implementation `http://httplug.io/` in this example.
 
 ## Getting started
 

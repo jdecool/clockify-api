@@ -6,12 +6,13 @@ namespace JDecool\Clockify;
 
 use Http\Client\{
     Common\HttpMethodsClient,
-    HttpClient
+    HttpClient,
 };
 use Http\Message\MessageFactory;
+use Psr\Http\Message\RequestFactoryInterface;
 use Http\Discovery\{
-    HttpClientDiscovery,
-    MessageFactoryDiscovery
+    Psr17FactoryDiscovery,
+    Psr18ClientDiscovery,
 };
 
 class ClientBuilder
@@ -19,12 +20,12 @@ class ClientBuilder
     private const ENDPOINT_V1 = 'https://api.clockify.me/api/v1/';
 
     private $httpClient;
-    private $messageFactory;
+    private $requestFactory;
 
-    public function __construct(?HttpClient $httpClient = null, ?MessageFactory $messageFactory = null)
+    public function __construct(?HttpClient $httpClient = null, ?RequestFactoryInterface $requestFactory = null)
     {
-        $this->httpClient = $httpClient ?? HttpClientDiscovery::find();
-        $this->messageFactory = $messageFactory ?? MessageFactoryDiscovery::find();
+        $this->httpClient = $httpClient ?? Psr18ClientDiscovery::find();
+        $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
     }
 
     public function createClientV1(string $apiKey): Client
@@ -34,7 +35,7 @@ class ClientBuilder
 
     public function create(string $endpoint, string $apiKey): Client
     {
-        $http = new HttpMethodsClient($this->httpClient, $this->messageFactory);
+        $http = new HttpMethodsClient($this->httpClient, $this->requestFactory);
 
         return new Client($http, $endpoint, $apiKey);
     }

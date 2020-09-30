@@ -10,120 +10,74 @@ use JDecool\Clockify\{
     Exception\BadRequest,
     Exception\Forbidden,
     Exception\NotFound,
-    Exception\Unauthorized
+    Exception\Unauthorized,
 };
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
 
 class Client
 {
     private $http;
-    private $baseUri;
-    private $apiKey;
 
-    public function __construct(HttpMethodsClient $http, string $baseUri, string $apiKey)
+    public function __construct(HttpMethodsClient $http)
     {
-        if (false === filter_var($baseUri, FILTER_VALIDATE_URL)) {
-            throw new RuntimeException('Invalid Clockify endpoint.');
-        }
-
         $this->http = $http;
-        $this->baseUri = $baseUri;
-        $this->apiKey = $apiKey;
     }
 
     public function get(string $uri, array $params = []): array
     {
-        $response = $this->http->get(
-            $this->endpoint($uri, $params),
-            ['X-Api-Key' => $this->apiKey]
-        );
+        if (!empty($params)) {
+            $uri .= '?'.http_build_query($params);
+        }
+
+        $response = $this->http->get($uri);
 
         if (200 !== $response->getStatusCode()) {
             throw $this->createExceptionFromResponse($response);
         }
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function post(string $uri, array $data): array
     {
-        $response = $this->http->post(
-            $this->endpoint($uri),
-            [
-                'Content-Type' => 'application/json',
-                'X-Api-Key' => $this->apiKey,
-            ],
-            json_encode($data)
-        );
+        $response = $this->http->post($uri, [], json_encode($data, JSON_THROW_ON_ERROR));
 
         if (201 !== $response->getStatusCode()) {
             throw $this->createExceptionFromResponse($response);
         }
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function put(string $uri, array $data): array
     {
-        $response = $this->http->put(
-            $this->endpoint($uri),
-            [
-                'Content-Type' => 'application/json',
-                'X-Api-Key' => $this->apiKey,
-            ],
-            json_encode($data)
-        );
+        $response = $this->http->put($uri, [], json_encode($data, JSON_THROW_ON_ERROR));
 
         if (!in_array($response->getStatusCode(), [200, 201], true)) {
             throw $this->createExceptionFromResponse($response);
         }
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function patch(string $uri, array $data): array
     {
-        $response = $this->http->patch(
-            $this->endpoint($uri),
-            [
-                'Content-Type' => 'application/json',
-                'X-Api-Key' => $this->apiKey,
-            ],
-            json_encode($data)
-        );
+        $response = $this->http->patch($uri, [], json_encode($data, JSON_THROW_ON_ERROR));
 
         if (!in_array($response->getStatusCode(), [200, 204], true)) {
             throw $this->createExceptionFromResponse($response);
         }
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function delete(string $uri): void
     {
-        $response = $this->http->delete(
-            $this->endpoint($uri)
-        );
+        $response = $this->http->delete($uri);
 
         if (204 !== $response->getStatusCode()) {
             throw $this->createExceptionFromResponse($response);
         }
-    }
-
-    private function endpoint(string $uri, array $params = []): string
-    {
-        $endpoint = sprintf(
-            '%s/%s',
-            rtrim($this->baseUri, '/'),
-            ltrim($uri, '/')
-        );
-
-        if (!empty($params)) {
-            $endpoint .= http_build_query($params);
-        }
-
-        return $endpoint;
     }
 
     private function createExceptionFromResponse(ResponseInterface $response): ClockifyException

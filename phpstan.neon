@@ -1,2 +1,4 @@
 parameters:
     bootstrap: %rootDir%/../../../vendor/autoload.php
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false

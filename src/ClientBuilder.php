@@ -16,6 +16,7 @@ use Http\Client\{
 use Http\Message\Authentication\Header;
 use Psr\Http\Message\{
     RequestFactoryInterface,
+    StreamFactoryInterface,
     UriFactoryInterface,
 };
 use Http\Discovery\{
@@ -31,15 +32,18 @@ class ClientBuilder
     private $httpClient;
     private $requestFactory;
     private $uriFactory;
+    private $streamFactory;
 
     public function __construct(
         ?HttpClient $httpClient = null,
         ?RequestFactoryInterface $requestFactory = null,
-        ?UriFactoryInterface $uriFactory = null
+        ?UriFactoryInterface $uriFactory = null,
+        ?StreamFactoryInterface $streamFactory = null
     ) {
         $this->httpClient = $httpClient ?? Psr18ClientDiscovery::find();
         $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
         $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
     }
 
     public function createClientV1(string $apiKey): Client
@@ -76,6 +80,7 @@ class ClientBuilder
         $http = new HttpMethodsClient(
             new PluginClient($this->httpClient, $plugins),
             $this->requestFactory,
+            $this->streamFactory,
         );
 
         return new Client($http);

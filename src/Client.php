@@ -120,7 +120,7 @@ class Client
         );
 
         if (!empty($params)) {
-            $endpoint .= http_build_query($params);
+            $endpoint .= '?'.http_build_query($params);
         }
 
         return $endpoint;

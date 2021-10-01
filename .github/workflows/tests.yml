@@ -3,41 +3,82 @@ on: [push]
 
 jobs:
   linter:
-    name: Code style
+    name: Code Style
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: docker://composer
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          args: install
-      - uses: docker://php:8.0-cli-alpine
+          php-version: 7.4
+          coverage: xdebug
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
         with:
-          entrypoint: vendor/bin/php-cs-fixer
-          args: fix -v --dry-run
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install Dependencies
+        run: composer install --no-progress
+      - name: Run php-cs-fixture
+        run: vendor/bin/php-cs-fixer fix -v --dry-run
 
   stan:
     name: Static analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: docker://composer
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          args: install
-      - uses: docker://php:8.0-cli-alpine
+          php-version: 7.4
+          coverage: xdebug
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
         with:
-          entrypoint: vendor/bin/phpstan
-          args: analyse src -c phpstan.neon -l 5
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install Dependencies
+        run: composer install --no-progress
+      - name: Run phpstan
+        run: vendor/bin/phpstan analyse src -c phpstan.neon -l 5
 
   tests:
-    name: Tests
+    name: Unit Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ['7.3', '7.4', '8.0']
+        php: ['7.3', '7.4', '8.0']
+        flags: ['', '--prefer-lowest', '--prefer-stable']
     steps:
-      - uses: actions/checkout@master
-      - uses: baptouuuu/setup-php@1.0.2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          version: ${{ matrix.version }}
-      - run: 'composer install'
-      - run: 'vendor/bin/phpunit'
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install Dependencies
+        run: composer update --prefer-dist --no-interaction --optimize-autoloader --prefer-stable --no-progress $COMPOSER_FLAGS
+        env:
+          COMPOSER_FLAGS: ${{ matrix.flags }}
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit

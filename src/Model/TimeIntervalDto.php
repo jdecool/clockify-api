@@ -16,14 +16,14 @@ class TimeIntervalDto
     {
         return new self(
             new DateTimeImmutable($data['start']),
-            new DateTimeImmutable($data['end']),
-            $data['duration']
+            $data['end'] ? new DateTimeImmutable($data['end']) : null,
+            $data['duration'] ? $data['duration'] : ''
         );
     }
 
     public function __construct(
         DateTimeImmutable $start,
-        DateTimeImmutable $end,
+        ?DateTimeImmutable $end,
         string $duration
     ) {
         $this->duration = $duration;
@@ -36,7 +36,7 @@ class TimeIntervalDto
         return $this->duration;
     }
 
-    public function end(): DateTimeImmutable
+    public function end(): ?DateTimeImmutable
     {
         return $this->end;
     }

@@ -24,9 +24,9 @@ class TimeEntryDtoImpl
             $data['description'],
             $data['id'],
             $data['isLocked'],
-            $data['projectId'],
-            $data['tagIds'],
-            $data['taskId'],
+            $data['projectId'] ? $data['projectId'] : '',
+            $data['tagIds'] ? $data['tagIds'] : array(),
+            $data['taskId'] ? $data['taskId'] : '',
             TimeIntervalDto::fromArray($data['timeInterval']),
             $data['userId'],
             $data['workspaceId']

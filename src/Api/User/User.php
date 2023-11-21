@@ -31,8 +31,7 @@ class User
      */
     public function workspaceUsers(string $workspaceId): array
     {
-        $data = $this->http->get("/workspace/$workspaceId/users");
-
+        $data = $this->http->get("/workspaces/$workspaceId/users");
         return array_map(
             static function(array $user): UserDto {
                 return UserDto::fromArray($user);

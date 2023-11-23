@@ -19,8 +19,8 @@ class UserDto
     public static function fromArray(array $data): self
     {
         return new self(
-            $data['activeWorkspace'],
-            $data['defaultWorkspace'],
+            $data['activeWorkspace'] ? $data['activeWorkspace'] : '',
+            $data['defaultWorkspace'] ? $data['defaultWorkspace'] : '',
             $data['email'],
             $data['id'],
             array_map(
@@ -29,9 +29,9 @@ class UserDto
                 },
                 $data['memberships']
             ),
-            $data['name'],
-            $data['profilePicture'],
-            UserSettingsDto::fromArray($data['settings']),
+            $data['name'] ? $data['name'] : '',
+            $data['profilePicture'] ? $data['profilePicture'] : '',
+            $data['settings'] ? UserSettingsDto::fromArray($data['settings']) : null,
             new UserStatus($data['status'])
         );
     }
@@ -47,7 +47,7 @@ class UserDto
         array $memberships,
         string $name,
         string $profilePicture,
-        UserSettingsDto $settings,
+        ?UserSettingsDto $settings,
         UserStatus $status
     ) {
         $this->activeWorkspace = $activeWorkspace;
@@ -99,7 +99,7 @@ class UserDto
         return $this->profilePicture;
     }
 
-    public function settings(): UserSettingsDto
+    public function settings(): ?UserSettingsDto
     {
         return $this->settings;
     }
